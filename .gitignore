@@ -1,1 +1,3 @@
 .vscode
+happy_llm/datasets
+happy_llm/__pycache__

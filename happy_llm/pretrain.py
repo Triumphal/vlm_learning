@@ -230,7 +230,7 @@ if __name__ == "__main__":
     # 基础训练参数
     parser.add_argument("--out_dir", type=str, default="base_model_215M", help="模型输出目录")
     parser.add_argument("--epochs", type=int, default=1, help="训练轮数")
-    parser.add_argument("--batch_size", type=int, default=64, help="批次大小")
+    parser.add_argument("--batch_size", type=int, default=4, help="批次大小")
     parser.add_argument("--learning_rate", type=float, default=2e-4, help="学习率")
     parser.add_argument(
         "--device", type=str, default="cuda:0" if torch.cuda.is_available() else "cpu", help="训练设备"
@@ -238,12 +238,12 @@ if __name__ == "__main__":
     parser.add_argument("--dtype", type=str, default="bfloat16", help="数据类型")
 
     # 实验跟踪和数据加载参数
-    parser.add_argument("--use_swanlab", action="store_true", help="是否使用SwanLab进行实验跟踪")
+    parser.add_argument("--use_swanlab", action="store_true",default=True, help="是否使用SwanLab进行实验跟踪")
     parser.add_argument("--num_workers", type=int, default=8, help="数据加载的工作进程数")
     parser.add_argument(
         "--data_path",
         type=str,
-        default="../../../datasets/seq_monkey/mobvoi_seq_monkey_general_open_corpus.jsonl",
+        default="./datasets/mobvoi_seq_monkey_general_open_corpus.jsonl",
         help="训练数据路径",
     )
 
@@ -272,11 +272,12 @@ if __name__ == "__main__":
             args.device = "cuda:0"
         else:
             args.device = "cpu"
+    print(f"device {args.device}")
 
     # ==================== 实验跟踪初始化 ====================
     if args.use_swanlab:
-        # 注意：使用前需要先登录
-        swanlab.login(api_key="LdaBOoUe7mlttCaDqKUws")
+        print("使用swanlab记录")
+        # 注意：使用前需要先登录 swanlab.login(api_key="")
         run = swanlab.init(
             project="Happy-LLM",  # 项目名称
             experiment_name="Pretrain-215M",  # 实验名称
