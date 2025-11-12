@@ -2,3 +2,4 @@
 happy_llm/datasets
 happy_llm/__pycache__
 happy_llm/base_model_215M
+train_llava/models/
